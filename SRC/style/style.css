@@ -1616,6 +1616,24 @@ header.scrolled {
 	font-size: 0.95rem;
 	font-weight: 500;
 }
+.slide p {
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: 0.8;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+.slide .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 
 .testimonials-main {
 	width: 100%;
@@ -1996,4 +2014,78 @@ header.scrolled {
 	  font-size: 1.6rem;
 	}
   }
+
+
+.slider-container::-webkit-scrollbar {
+height: 7px;
+}
+.slider-container::-webkit-scrollbar-track {
+background: none;
+border-radius: 10px;
+}
+.slider-container::-webkit-scrollbar-thumb {
+background: #ffffffae;
+border-radius: 10px;
+}
+.slider-container::-webkit-scrollbar-thumb:hover {
+background: #fff;
+}
+  
+.slider-container {
+width: 100%;
+overflow-x: auto;
+padding-top: 150px; /* to avoid overlapping header */
+}
+  
+.slider {
+display: flex;
+width: fit-content;
+gap: 40px;
+overflow-x: auto;
+padding: 20px;
+}
+  
+.slide {
+width: 250px;
+height: 320px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 20px;
+position: relative;
+transition: 0.3s ease;
+}
+  
+.slide h4 {
+font-size: 20px;
+font-weight: 600;
+margin-top: 10px;
+color: #57068C;
+}
+  
+.slide p {
+font-size: 14px;
+text-align: center;
+margin-top: 5px;
+opacity: 0.8;
+}
+  
+.slide .icon {
+position: absolute;
+bottom: 20px;
+display: flex;
+gap: 15px;
+font-size: 20px;
+}
+  
+.slide .icon a {
+color: #00008B;
+}
+  
+.slide:hover {
+scale: 1.1;
+}
   
