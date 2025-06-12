@@ -169,6 +169,34 @@ if (contactForm) {
 // 	// 	})
 // }
 
+// function sendMail() {
+// 	const params = {
+// 		name: document.getElementById('name').value,
+// 		email: document.getElementById('email').value,
+// 		message: document.getElementById('message').value
+// 	};
+
+// 	const serviceID = "service_iugc97j";
+// 	const templateID = "template_vhl20xm"; // Replace with your actual Template ID
+
+// 	emailjs.send(serviceID, templateID, params)
+// 		.then(() => {
+// 			// UI Feedback
+// 			contactSubmitAfter.classList.add('show');
+// 			formSection.classList.add('hide');
+// 			contactSection.classList.add('csa-cs');
+// 			contactForm.classList.add('csa-cf');
+// 			// Clear fields
+// 			document.getElementById("name").value = "";
+// 			document.getElementById("email").value = "";
+// 			document.getElementById("message").value = "";
+// 		})
+// 		.catch((err) => {
+// 			console.error("EmailJS error:", err);
+// 			alert("Something went wrong. Please try again later.");
+// 		});
+// }
+
 function sendMail() {
 	const params = {
 		name: document.getElementById('name').value,
@@ -177,22 +205,28 @@ function sendMail() {
 	};
 
 	const serviceID = "service_iugc97j";
-	const templateID = "template_vhl20xm"; // Replace with your actual Template ID
+	const adminTemplateID = "template_ovvhceb";    // Replace with actual
+	const userTemplateID = "template_vhl20xm";    // Replace with actual
 
-	emailjs.send(serviceID, templateID, params)
+	// Send to YOU
+	emailjs.send(serviceID, adminTemplateID, params)
 		.then(() => {
-			// UI Feedback
+			// Then send to USER
+			return emailjs.send(serviceID, userTemplateID, params);
+		})
+		.then(() => {
+			// Show success message
 			contactSubmitAfter.classList.add('show');
 			formSection.classList.add('hide');
 			contactSection.classList.add('csa-cs');
 			contactForm.classList.add('csa-cf');
-			// Clear fields
-			document.getElementById("name").value = "";
-			document.getElementById("email").value = "";
-			document.getElementById("message").value = "";
+			["name", "email", "message"].forEach(id => {
+				document.getElementById(id).value = "";
+			});
 		})
 		.catch((err) => {
-			console.error("EmailJS error:", err);
+			console.error("EmailJS Error:", err);
 			alert("Something went wrong. Please try again later.");
 		});
 }
+
