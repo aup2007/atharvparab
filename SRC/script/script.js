@@ -131,40 +131,68 @@ if (contactForm) {
 
 // After adding the Email Js APi key in the script tag of the contact.html, uncomment this function section
 
+// function sendMail() {
+
+// 	// Remove this section after adding the Email Js APi key in the script tag of the contact.html, uncomment this function section
+// 	// From this
+// 	contactSubmitAfter.classList.add('show');
+// 	formSection.classList.add('hide');
+// 	contactSection.classList.add('csa-cs');
+// 	contactForm.classList.add('csa-cf');
+// 	// To this
+
+// 	// var params = {
+// 	// 	name: document.getElementById('name').value,
+// 	// 	email: document.getElementById('email').value,
+// 	// 	message: document.getElementById('message').value
+// 	// }
+
+// 	// const serviceID = "service_evf2wim";
+// 	// const templateID = "template_v085uvl";
+
+// 	// emailjs.send(serviceID, templateID, params)
+// 	// 	.then(
+// 	// 		res => {
+// 	// 			document.getElementById('name').value = "";
+// 	// 			document.getElementById('email').value = "";
+// 	// 			document.getElementById('message').value = "";
+
+// 	// 			contactSubmitAfter.classList.add('show');
+// 	// 			formSection.classList.add('hide');
+// 	// 			contactSection.classList.add('csa-cs');
+// 	// 			contactForm.classList.add('csa-cf');
+
+// 	// 		}
+// 	// 	)
+// 	// 	.catch((error) => {
+// 	// 		console.log(error);
+// 	// 	})
+// }
+
 function sendMail() {
+	const params = {
+		name: document.getElementById('name').value,
+		email: document.getElementById('email').value,
+		message: document.getElementById('message').value
+	};
 
-	// Remove this section after adding the Email Js APi key in the script tag of the contact.html, uncomment this function section
-	// From this
-	contactSubmitAfter.classList.add('show');
-	formSection.classList.add('hide');
-	contactSection.classList.add('csa-cs');
-	contactForm.classList.add('csa-cf');
-	// To this
+	const serviceID = "service_iugc97j";
+	const templateID = "template_vhl20xm"; // Replace with your actual Template ID
 
-	// var params = {
-	// 	name: document.getElementById('name').value,
-	// 	email: document.getElementById('email').value,
-	// 	message: document.getElementById('message').value
-	// }
-
-	// const serviceID = "service_evf2wim";
-	// const templateID = "template_v085uvl";
-
-	// emailjs.send(serviceID, templateID, params)
-	// 	.then(
-	// 		res => {
-	// 			document.getElementById('name').value = "";
-	// 			document.getElementById('email').value = "";
-	// 			document.getElementById('message').value = "";
-
-	// 			contactSubmitAfter.classList.add('show');
-	// 			formSection.classList.add('hide');
-	// 			contactSection.classList.add('csa-cs');
-	// 			contactForm.classList.add('csa-cf');
-
-	// 		}
-	// 	)
-	// 	.catch((error) => {
-	// 		console.log(error);
-	// 	})
+	emailjs.send(serviceID, templateID, params)
+		.then(() => {
+			// UI Feedback
+			contactSubmitAfter.classList.add('show');
+			formSection.classList.add('hide');
+			contactSection.classList.add('csa-cs');
+			contactForm.classList.add('csa-cf');
+			// Clear fields
+			document.getElementById("name").value = "";
+			document.getElementById("email").value = "";
+			document.getElementById("message").value = "";
+		})
+		.catch((err) => {
+			console.error("EmailJS error:", err);
+			alert("Something went wrong. Please try again later.");
+		});
 }
