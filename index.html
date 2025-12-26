@@ -121,6 +121,97 @@
         });
     </script>
 
+    <script>
+    (function () {
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get("src");
+    if (!src) return;
+
+    document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href) return;
+
+        const isExternal = href.startsWith('http') || href.startsWith('//');
+        const isMailOrTel = href.startsWith('mailto:') || href.startsWith('tel:');
+        const isHash = href.startsWith('#');
+
+        // Only rewrite internal relative links (Education/Career/etc.)
+        if (!isExternal && !isMailOrTel && !isHash) {
+        const url = new URL(href, window.location.origin);
+        if (!url.searchParams.get('src')) url.searchParams.set('src', src);
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+        }
+    });
+    })();
+    </script>
+
+
+    <script>
+    (function () {
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get("src") || "direct";
+
+    function track(eventName, data) {
+        // GA4 event
+        if (typeof gtag === "function") {
+        gtag("event", eventName, { src, ...data });
+        }
+
+        // Your Google Apps Script logging (optional but recommended)
+        fetch("https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+            event: eventName,
+            src,
+            page: window.location.href,
+            ua: navigator.userAgent,
+            ...data
+        }),
+        keepalive: true
+        }).catch(() => {});
+    }
+
+    document.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (!a) return;
+
+        const href = a.getAttribute("href") || "";
+        const text = (a.textContent || "").trim().slice(0, 60);
+
+        // Resume click
+        if (text.toLowerCase().includes("resume") || href.includes("drive.google.com")) {
+        track("resume_click", { href, text });
+        return;
+        }
+
+        // Social clicks
+        if (href.includes("linkedin.com")) {
+        track("linkedin_click", { href });
+        return;
+        }
+        if (href.includes("github.com")) {
+        track("github_click", { href });
+        return;
+        }
+
+        // Internal nav clicks
+        const isInternal = !href.startsWith("http") && !href.startsWith("mailto:") && !href.startsWith("tel:");
+        if (isInternal) {
+        track("nav_click", { href, text });
+        return;
+        }
+
+        // Any other outbound link
+        if (href.startsWith("http")) {
+        track("outbound_click", { href, text });
+        }
+    });
+    })();
+    </script>
+
+
+
 </body>
 
 </html>
