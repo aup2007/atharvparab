@@ -3,7 +3,7 @@
 
 <head>
     <!-- Google tag (gtag.js) -->
-    <script>
+    <!-- <script>
   (function () {
     const params = new URLSearchParams(window.location.search);
     const src = params.get("src");
@@ -19,7 +19,26 @@
       })
     });
   })();
-    </script>
+    </script> -->
+        <script>
+            (function () {
+            const params = new URLSearchParams(window.location.search);
+            const src = params.get("src");
+            if (!src) return;
+
+            fetch("https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec", {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                event: "page_view",
+                src,
+                page: window.location.href,
+                ua: navigator.userAgent,
+                ts: new Date().toISOString()
+                })
+            }).catch(() => {});
+            })();
+        </script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS6CMQJ75N"></script>
     <script>
@@ -146,7 +165,7 @@
     </script>
 
 
-    <script>
+    <!-- <script>
     (function () {
     const params = new URLSearchParams(window.location.search);
     const src = params.get("src") || "direct";
@@ -208,7 +227,63 @@
         }
     });
     })();
-    </script>
+    </script> -->
+
+
+    <script>
+(function () {
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec";
+  const src = new URLSearchParams(location.search).get("src") || "direct";
+
+  function send(payload) {
+    // GA4
+    if (typeof gtag === "function" && payload.event) {
+      const { event, ...rest } = payload;
+      gtag("event", event, { src, ...rest });
+    }
+
+    // Google Sheet (reliable during navigation)
+    try {
+      const blob = new Blob([JSON.stringify(payload)], { type: "text/plain;charset=utf-8" });
+      const ok = navigator.sendBeacon(SCRIPT_URL, blob);
+      if (!ok) {
+        fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(() => {});
+      }
+    } catch (e) {}
+  }
+
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a) return;
+
+    const href = a.getAttribute("href") || "";
+    const text = (a.textContent || "").trim().slice(0, 80);
+
+    let event = "link_click";
+    if (text.toLowerCase().includes("resume") || href.includes("drive.google.com")) event = "resume_click";
+    else if (href.includes("github.com")) event = "github_click";
+    else if (href.includes("linkedin.com")) event = "linkedin_click";
+    else if (!href.startsWith("http") && !href.startsWith("mailto:") && !href.startsWith("tel:")) event = "nav_click";
+    else if (href.startsWith("http")) event = "outbound_click";
+
+    send({
+      event,
+      src,
+      from_page: location.pathname,
+      href,
+      text,
+      ua: navigator.userAgent,
+      ts: new Date().toISOString()
+    });
+  });
+})();
+</script>
+
 
 
 

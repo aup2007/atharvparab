@@ -11,6 +11,27 @@
 
   gtag('config', 'G-WS6CMQJ75N');
 </script>
+
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const src = params.get("src");
+  if (!src) return;
+
+  fetch("https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      event: "page_view",
+      src,
+      page: window.location.href,
+      ua: navigator.userAgent,
+      ts: new Date().toISOString()
+    })
+  }).catch(() => {});
+})();
+</script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Atharv's Projects</title>
