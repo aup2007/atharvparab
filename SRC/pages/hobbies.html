@@ -2,209 +2,327 @@
 <html>
 
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WS6CMQJ75N"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const src = params.get("src");
+            if (!src) return;
 
-  gtag('config', 'G-WS6CMQJ75N');
-</script>
+            fetch("https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec", {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    event: "page_view",
+                    src,
+                    page: window.location.href,
+                    ua: navigator.userAgent,
+                    ts: new Date().toISOString()
+                })
+            }).catch(() => { });
+        })();
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WS6CMQJ75N"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-WS6CMQJ75N');
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atharv's Projects</title>
+    
+    <link rel="stylesheet" type="text/css" href="../style/style.css">
+    <link rel="icon" href="/Assets/favicons/favicon.png" type="image/png" sizes="32x32">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
-<script>
-(function () {
-  const params = new URLSearchParams(window.location.search);
-  const src = params.get("src");
-  if (!src) return;
+    <style>
+        .projects-main {
+            padding: 100px 5% 50px;
+            display: flex;
+            justify-content: center;
+        }
 
-  fetch("https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec", {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({
-      event: "page_view",
-      src,
-      page: window.location.href,
-      ua: navigator.userAgent,
-      ts: new Date().toISOString()
-    })
-  }).catch(() => {});
-})();
-</script>
+        .projects-container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive */
+            gap: 30px;
+        }
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atharv's Projects</title>
-  <link rel="stylesheet" type="text/css" href="../style/style.css">
-  <link rel="icon" href="/Assets/favicons/favicon.png" type="image/png" sizes="32x32">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+        .project-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Purple Accent Line */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--main-color), var(--accent-color));
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -10px rgba(87, 6, 140, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .project-header { margin-bottom: 15px; }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-tech {
+            font-size: 0.8rem;
+            color: var(--main-color);
+            background: rgba(87, 6, 140, 0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 15px;
+        }
+
+        .project-links a {
+            font-size: 1.2rem;
+            color: #666;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .project-links a:hover {
+            color: var(--main-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .projects-container { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 
 <body>
-
-  <header class="header" id="header">
-    <a href="index.html" class="logo">
-      <span>Atharv Parab</span>
-    </a>
-    <div class="navbar">
-      <a href="/index.html">Home</a>
-      <a href="./education.html">Education</a>
-      <a href="./career.html">Career</a>
-      <a href="./hobbies.html" class="active">Projects</a>
-      <a 
-        href="https://drive.google.com/drive/folders/1gMgv0rWKzHZejsm9LH3haJW3_xqQjR5t?usp=sharing" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >Resume</a>
-
-      <!-- <a href="./testimonials.html">Testimonials</a> -->
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
-    <div class="main">
-      <a href="contact.html" class="user main-items">
-        <i class="fas fa-envelope cm-icon"></i>Contact Me
-      </a>
-      <div class="main-items menu-icon-container" id="menu-icon-js">
-        <div class="bx bx-menu" id="menu-icon"></div>
-      </div>
-    </div>
-  </header>
 
-<div class="page">
-    <main class="projects-main">
-      <div class="projects-section">
-        <div class="projects-header">
-          <!-- <div class="header-text">My Projects</div> -->
-          <!-- <p class="styled-intro">
-            My Projects
-        </p> -->
-          <div class="header-line"></div>
+    <header id="header">
+        <a href="../../index.html" class="logo"><span>Atharv Parab</span></a>
+        
+        <div class="navbar">
+            <a href="../../index.html">Home</a>
+            <a href="./education.html">Education</a>
+            <a href="./career.html">Career</a>
+            <a href="./hobbies.html" class="active">Projects</a>
+            <a href="https://drive.google.com/drive/folders/1gMgv0rWKzHZejsm9LH3haJW3_xqQjR5t?usp=sharing" target="_blank">Resume</a>
         </div>
-        <!-- <p class="styled-intro">
-            My Projects
-        </p> -->
-        <div class="slider-container">
-            <!-- <p class="styled-intro">
-            My Projects
-        </p> -->
-            <div class="slider">
-              <!-- <div class="slide">
-                <img src="https://via.placeholder.com/250x120" alt="Project 1" style="width: 100%; height: 120px; object-fit: cover;">
-                <h4>Finge</h4>
-                <p>React, Flask, Yahoo Finance API</p>
-                <div class="icon">
-                  <a href="https://github.com/your-repo" target="_blank"><i class="fab fa-github"></i></a>
-                  <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <a href="https://project-demo.com" target="_blank"><i class="fas fa-link"></i></a>
-                </div>
-              </div> -->
-              <div class="slide">
-                <!-- <img src="https://via.placeholder.com/250x120" alt="Finge Project Screenshot" style="width: 100%; height: 120px; object-fit: cover;"> -->
-                <h4>Finge</h4>
-                <p class="tech">React, TypeScript, FastAPI, MongoDB, OpenAI</p>
-                <p style="font-size: 13px; text-align: center; padding: 0 10px;" class="description">
-                  A Hinge-style investment discovery app built at HackNYU 2025. 
-                </p>
-                <div class="icon">
-                  <a href="https://github.com/aup2007/Finge-HackNYU" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                  <a href="https://devpost.com/software/fin-ge" target="_blank" title="Devpost"><i class="fas fa-code"></i></a>
-                  <a href="https://www.linkedin.com/posts/atharvparab17_hacknyu-ai-fintech-activity-7295554276418809856-ZI5W?utm_source=share&utm_medium=member_desktop&rcm=ACoAADYv2ToBo1jibTJCcAjE6P272qCdIp0NWVc" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <a href="https://finge.vercel.app/" target="_blank" title="Live Demo"><i class="fas fa-link"></i></a>
-                </div>
-              </div>
-              <div class="slide">
-                <!-- <img src="https://via.placeholder.com/250x120" alt="Finge Project Screenshot" style="width: 100%; height: 120px; object-fit: cover;"> -->
-                <h4>SolveIt</h4>
-                <h4>Captcha Solver</h4>
-                <p class="tech">PyTorch, CNN+LSTM, MLflow, Flask, Docker Compose, PWA</p>
-                <p style="font-size: 13px; text-align: center; padding: 0 10px;" class="description">
-                  Developed an end to end ML system to solve CAPTCHAs
-                </p>
-                <div class="icon">
-                  <a href="https://github.com/aup2007/SolveIt" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                  <a href="https://www.linkedin.com/posts/atharvparab17_hacknyu-ai-fintech-activity-7295554276418809856-ZI5W?utm_source=share&utm_medium=member_desktop&rcm=ACoAADYv2ToBo1jibTJCcAjE6P272qCdIp0NWVc" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <a href="https://solveit-ekg2.onrender.com/" target="_blank" title="Live Demo"><i class="fas fa-link"></i></a>
-                </div>
-              </div>
-              <div class="slide">
-                <!-- <img src="/Assets/projects/project1.png" alt="Project 1" style="width: 100%; height: 120px; object-fit: cover;"> -->
-                <h4>LLM Tokenizer</h4>
-                <p> Python, PySpark, Hugging Face, BPE</p>
-                <p style="font-size: 13px; text-align: center; padding: 0 10px;" class="description">
-                  Built a PySpark-powered pipeline to tokenize Wikipedia data for LLMs using Hugging Face and Byte Pair Encoding
-                </p>
-                <div class="icon">
-                  <a href="https://github.com/aup2007/6513-LLM-Tokenizer" target="_blank"><i class="fab fa-github"></i></a>
-                  <a href="https://www.linkedin.com/in/atharvparab17/details/projects/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <!-- <a href="https://project-demo.com" target="_blank"><i class="fas fa-link"></i></a> -->
-                </div>
-              </div>
-              <div class="slide">
-                <!-- <img src="/Assets/projects/project1.png" alt="Project 1" style="width: 100%; height: 120px; object-fit: cover;"> -->
-                <h4>Stock Trading using Deep RL</h4>
-                <p>Python, PyTorch, A2C, PPO, DDPG, NumPy, Pandas</p>
-                <p style="font-size: 13px; text-align: center; padding: 0 10px;" class="description">
-                  Built a deep RL model to trade stocks applyied time series analysis
-                </p>
-                <div class="icon">
-                  <a href="https://github.com/your-repo" target="_blank"><i class="fab fa-github"></i></a>
-                  <a href="https://www.linkedin.com/in/atharvparab17/details/projects/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <!-- <a href="https://project-demo.com" target="_blank"><i class="fas fa-link"></i></a> -->
-                </div>
-              </div>
-              <!-- <div class="slide">
-                <img src="/Assets/projects/project1.png" alt="Project 1" style="width: 100%; height: 120px; object-fit: cover;">
-                <h4>StockMate</h4>
-                <p>React, Flask, Yahoo Finance API</p>
-                <div class="icon">
-                  <a href="https://github.com/your-repo" target="_blank"><i class="fab fa-github"></i></a>
-                  <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <a href="https://project-demo.com" target="_blank"><i class="fas fa-link"></i></a>
-                </div>
-              </div> -->
-              <div class="slide">
-                <!-- <img src="/Assets/projects/project1.png" alt="Project 1" style="width: 100%; height: 120px; object-fit: cover;"> -->
-                <h4>Housing Stability </h4>
-                <p>Python, Scikit-learn, Pandas, Apache Spark, Tableau</p>
-                <p style="font-size: 13px; text-align: center; padding: 0 10px;" class="description">
-                  Developed ML models on CoC data to predict housing outcomes, achieving 83.8% R² and Spark for large-scale processing </p>
-                <div class="icon">
-                  <!-- <a href="https://github.com/your-repo" target="_blank"><i class="fab fa-github"></i></a> -->
-                  <a href="https://www.linkedin.com/in/atharvparab17/details/projects/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                  <!-- <a href="https://project-demo.com" target="_blank"><i class="fas fa-link"></i></a> -->
-                </div>
-              </div>
-              <!-- Duplicate .slide divs for more projects -->
+
+        <div class="main">
+            <a href="./contact.html" class="user main-items">
+                <i class="fas fa-envelope cm-icon"></i>Contact Me
+            </a>
+            <div class="main-items menu-icon-container" id="menu-icon-js">
+                <div class="bx bx-menu" id="menu-icon"></div>
             </div>
-          </div>
-          
-
         </div>
-    </main>
+    </header>
 
-    <footer class="footer">
-      <div class="left">
-      </div>
-      <div class="right">
-        <!-- <div class="social">
-          <a href="https://www.facebook.com/ritoncharlox" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-        </div>
-        <div class="social">
-          <a href="https://www.instagram.com/ritoncharlox" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        </div> -->
-        <div class="social">
-          <a href="https://www.linkedin.com/in/atharvparab17" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-        </div>
-        <div class="social">
-          <a href="https://github.com/aup2007" target="_blank"><i class="fa-brands fa-github"></i></a>
-        </div>
-      </div>
-    </footer>
-</div>
+    <div class="page">
+        <main class="projects-main">
+            
+            <div class="projects-container">
+                
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">PointPilot</div>
+                        <div class="project-tech">React Native • Expo • FastAPI • Amadeus API</div>
+                    </div>
+                    <p class="project-desc">
+                        An intelligent valuation engine designed to maximize travel rewards by comparing live cash prices against point redemption costs in real-time. 
+                        It empowers users to identify high-value transfer partners and optimize redemptions, especially during bonus periods like Bilt Rent Day.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://pointpilot.vercel.app/" target="_blank" title="Live App"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
 
-  <div class="nav-touch-close" id="nav-tc-js"></div>
-  <script type="text/javascript" src="../script/script.js"></script>
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">OptionsAlpha</div>
+                        <div class="project-tech">Streamlit • Python • Black-Scholes • APIs</div>
+                    </div>
+                    <p class="project-desc">
+                        A real-time options analytics dashboard that provides live Greeks, implied volatility surfaces, and hedging scenarios. 
+                        Designed for quantitative traders to analyze risk and pricing models dynamically.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://optionsalpha.streamlit.app/" target="_blank" title="Live App"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
 
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">Finge</div>
+                        <div class="project-tech">React • FastAPI • MongoDB • OpenAI</div>
+                    </div>
+                    <p class="project-desc">
+                        A "Hinge-style" investment discovery app built at HackNYU 2025. 
+                        Users swipe on stocks to learn financial data in a fun, engaging way. 
+                        Winner of the Fintech Track.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007/Finge-HackNYU" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://finge.vercel.app/" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        <a href="https://devpost.com/software/fin-ge" target="_blank"><i class="fas fa-code"></i></a>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">SolveIt</div>
+                        <div class="project-tech">PyTorch • CNN+LSTM • Docker • PWA</div>
+                    </div>
+                    <p class="project-desc">
+                        An end-to-end Machine Learning system that solves complex CAPTCHAs with high accuracy. 
+                        Deployed as a Progressive Web App (PWA) using Docker Compose.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007/SolveIt" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://solveit-ekg2.onrender.com/" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">LLM Tokenizer</div>
+                        <div class="project-tech">PySpark • Hugging Face • BPE</div>
+                    </div>
+                    <p class="project-desc">
+                        Built a scalable PySpark pipeline to tokenize millions of Wikipedia articles using Byte Pair Encoding (BPE). 
+                        Visualized token distributions for downstream NLP tasks.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007/6513-LLM-Tokenizer" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">Deep RL Trading</div>
+                        <div class="project-tech">Python • A2C • PPO • DDPG</div>
+                    </div>
+                    <p class="project-desc">
+                        Developed a Deep Reinforcement Learning agent to trade stocks autonomously. 
+                        Implemented A2C, PPO, and DDPG algorithms to optimize portfolio returns.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-title">Housing Stability</div>
+                        <div class="project-tech">Scikit-learn • Spark • Tableau</div>
+                    </div>
+                    <p class="project-desc">
+                        Predictive modeling on Continuum of Care (CoC) data to forecast housing outcomes. 
+                        Achieved 83.8% R² score and utilized Spark for large-scale data processing.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/aup2007" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="right">
+                <div class="social"><a href="https://www.linkedin.com/in/atharvparab17" target="_blank"><i class="fa-brands fa-linkedin"></i></a></div>
+                <div class="social"><a href="https://github.com/aup2007" target="_blank"><i class="fa-brands fa-github"></i></a></div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="nav-touch-close" id="nav-tc-js"></div>
+    <script type="text/javascript" src="../script/script.js"></script>
+
+    <script>
+        (function () {
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOBqsP8JgOEH8_P2d8WxrKUT3_0qbT-CAuP5z3FxOy9ap4EAKLhhTfO99QvAXFmZc7tw/exec";
+            const src = new URLSearchParams(location.search).get("src") || "direct";
+
+            function send(payload) {
+                if (typeof gtag === "function" && payload.event) {
+                    const { event, ...rest } = payload;
+                    gtag("event", event, { src, ...rest });
+                }
+                try {
+                    const blob = new Blob([JSON.stringify(payload)], { type: "text/plain;charset=utf-8" });
+                    navigator.sendBeacon(SCRIPT_URL, blob);
+                } catch (e) { }
+            }
+
+            document.addEventListener("click", (e) => {
+                const a = e.target.closest("a");
+                if (!a) return;
+                const href = a.getAttribute("href") || "";
+                let event = "link_click";
+                
+                if (href.includes("resume") || href.includes("drive.google.com")) event = "resume_click";
+                else if (href.includes("github.com")) event = "github_click";
+                else if (href.includes("linkedin.com")) event = "linkedin_click";
+                else if (!href.startsWith("http")) event = "nav_click";
+
+                send({ event, src, href, ua: navigator.userAgent });
+            });
+        })();
+    </script>
 </body>
-
 </html>
